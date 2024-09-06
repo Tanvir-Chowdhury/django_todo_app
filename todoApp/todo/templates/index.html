@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Todo App</title>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center">
+    <h1 class="text-3xl font-bold mb-5">Todo App</h1>
+    <div class="w-full max-w-3xl flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6 p-4">
+        <!-- Tasks Section -->
+         
+        <div class="bg-white shadow-lg rounded-lg p-6 w-full md:w-1/2 space-y-4">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Your Tasks</h2>
+            {% for item_list in item_list %}
+            <div class="relative bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-4 rounded-lg text-white shadow-md">
+                <form method="POST" action="{% url 'remove' item_list.id %}" class="absolute top-2 right-2">
+                    {% csrf_token %}
+                    <button type="submit" class="text-white hover:text-red-700 text-2xl font-bold">&times;</button>
+                </form>
+                <h3 class="text-lg font-semibold">{{item_list.title}}</h3>
+                <p class="text-sm">{{item_list.description}}</p>
+                <p class="text-xs mt-2">Created on: <span class="font-bold">{{item_list.date}}</span></p>
+            </div>
+            {% endfor %}
+        </div>
+        
+
+        <!-- Form Section -->
+        <div class="bg-white shadow-lg rounded-lg p-6 w-full md:w-1/2">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Add New Task</h2>
+            <form method="POST" class="space-y-4">
+                {% csrf_token %}
+                <!-- Task Title -->
+                <div>
+                    <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+                    <input type="text" name="title" id="title" placeholder="Task Title" 
+                        class="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm">
+                </div>
+
+                <!-- Task Description -->
+                <div>
+                    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                    <textarea name="description" id="description" placeholder="Task Description" rows="3" 
+                        class="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm"></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" 
+                    class="w-full bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white p-2 rounded-lg font-semibold hover:from-purple-600 hover:to-red-600 transition-all ease-in-out duration-300">
+                    Add Task
+                </button>
+            </form>
+        </div>
+    </div>
+    <h3 class="text-xl mt-5">Created by <span class="font-bold">Mohammad Tanvir Chowdhury</span> </h3>
+</body>
+
+</html>
